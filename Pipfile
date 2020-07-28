@@ -6,6 +6,9 @@ verify_ssl = true
 [dev-packages]
 
 [packages]
+tweepy = "*"
+sudachidict-core = {file = "https://object-storage.tyo2.conoha.io/v1/nc_2520839e1f9641b08211a5c85243124a/sudachi/SudachiDict_core-20200330.tar.gz"}
+janome = "*"
 
 [requires]
 python_version = "3.8"

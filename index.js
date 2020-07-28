@@ -23,16 +23,16 @@ function handleEvent(event) {
     keyword = event.message.text;
   }
 
+  let isWaitingPush = true;
+
+  if (keyword.length < 4) {
+    message = "検索キーワードは4文字以上で入力してください";
+    isWaitingPush = false;
+  } else {
+    message = "【" + keyword + " 】の極性を判定します";
+  }
+
   let userId = event.source.userId;
-
-  /*
-  getAnalyzed(keyword).then((result) => {
-    message = result;
-    const echo = { type: "text", text: message };
-
-    return client.replyMessage(event.replyToken, echo);
-  });
-  */
 
   const echo = { type: "text", text: message };
   client
@@ -44,20 +44,22 @@ function handleEvent(event) {
       console.log(err);
     });
 
-  getAnalyzed(keyword).then((result) => {
-    const pushContent = {
-      type: "text",
-      text: result,
-    };
-    client
-      .pushMessage(userId, pushContent)
-      .then(() => {
-        console.log("push OK.");
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  });
+  if (isWaitingPush) {
+    getAnalyzed(keyword).then((result) => {
+      const pushContent = {
+        type: "text",
+        text: result,
+      };
+      client
+        .pushMessage(userId, pushContent)
+        .then(() => {
+          console.log("push OK.");
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    });
+  }
 }
 
 app.post("/callback", line.middleware(config), (req, res) => {
@@ -76,9 +78,8 @@ app.listen(port, () => {
 
 const getAnalyzed = (keyword) => {
   return new Promise((resolve) => {
-    const pyshell = new PythonShell("./calc.py");
-    let enc = escape(keyword).replace(/%/g, "\\");
-    pyshell.send(enc);
+    const pyshell = new PythonShell("./pydir/calc.py");
+    pyshell.send(keyword);
     pyshell.on("message", (message) => {
       resolve(message);
     });
