@@ -1,0 +1,24 @@
+{
+  "name": "npbot-local",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/stkhrmwl/npbot-local.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/stkhrmwl/npbot-local/issues"
+  },
+  "homepage": "https://github.com/stkhrmwl/npbot-local#readme",
+  "dependencies": {
+    "@line/bot-sdk": "^7.0.0",
+    "express": "^4.17.1",
+    "python-shell": "^2.0.1"
+  }
+}
